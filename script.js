@@ -38,10 +38,14 @@ document.querySelectorAll('.download-btn').forEach(button => {
 
         if (openMode === 'tab') {
             if (downloadLink && downloadLink.trim() !== '') {
-                const opened = window.open(downloadLink, '_blank', 'noopener');
-                if (!opened) {
-                    alert('팝업이 차단되었습니다. 브라우저 팝업 차단을 해제한 후 다시 시도해주세요.');
-                }
+                const tempAnchor = document.createElement('a');
+                tempAnchor.href = downloadLink;
+                tempAnchor.target = '_blank';
+                tempAnchor.rel = 'noopener noreferrer';
+                tempAnchor.style.display = 'none';
+                document.body.appendChild(tempAnchor);
+                tempAnchor.click();
+                document.body.removeChild(tempAnchor);
             } else {
                 alert('다운로드 링크를 설정해주세요. Google Drive 파일 링크를 data-link 속성에 추가하세요.');
             }
