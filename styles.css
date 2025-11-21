@@ -665,12 +665,14 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--accent-primary);
+    background: rgba(99, 102, 241, 0.35);
     border-radius: 5px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--accent-secondary);
+    background: rgba(99, 102, 241, 0.6);
 }
 
 /* iframe 뷰어 */
