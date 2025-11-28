@@ -167,13 +167,14 @@ const homeBtn = document.getElementById('home-btn');
 let currentUrl = '';
 let historyStack = [];
 let historyIndex = -1;
+let isNavigating = false; // 네비게이션 중복 방지
 
 // iframe에 URL 로드
 function loadUrlInIframe(url, title, addToHistory = true) {
-    if (!url || url.trim() === '') return;
+    if (!url || url.trim() === '' || isNavigating) return;
     
+    isNavigating = true;
     currentUrl = url;
-    contentIframe.src = url;
     
     // 제목 설정
     if (title) {
@@ -181,6 +182,22 @@ function loadUrlInIframe(url, title, addToHistory = true) {
     } else {
         navTitle.textContent = '페이지 로딩 중...';
     }
+    
+    // 대시보드 뷰 숨기기 (부드러운 전환)
+    dashboardView.classList.add('hiding');
+    
+    // 약간의 딜레이 후 iframe 뷰 표시
+    setTimeout(() => {
+        dashboardView.style.display = 'none';
+        iframeView.style.display = 'flex';
+        
+        // 다음 프레임에서 활성화하여 부드러운 전환
+        requestAnimationFrame(() => {
+            iframeView.classList.add('active');
+            contentIframe.src = url;
+            isNavigating = false;
+        });
+    }, 150);
     
     // 히스토리 스택에 추가 (뒤로가기/앞으로가기로 이동할 때는 추가하지 않음)
     if (addToHistory) {
@@ -190,14 +207,10 @@ function loadUrlInIframe(url, title, addToHistory = true) {
         historyIndex = historyStack.length - 1;
     }
     
-    // 뷰 전환
-    dashboardView.style.display = 'none';
-    iframeView.style.display = 'flex';
-    
-    // 히스토리 상태 추가
-    pushHistoryState();
-    
-    // 네비게이션 버튼 상태 업데이트 (홈 버튼만 있으므로 불필요)
+    // 히스토리 상태 추가 (한 번만)
+    setTimeout(() => {
+        pushHistoryState();
+    }, 200);
     
     // iframe 로드 완료 시 제목 업데이트
     contentIframe.onload = function() {
@@ -210,17 +223,43 @@ function loadUrlInIframe(url, title, addToHistory = true) {
             navTitle.textContent = title || '페이지';
         }
     };
+    
+    // 에러 처리
+    contentIframe.onerror = function() {
+        navTitle.textContent = title || '페이지 로드 오류';
+        isNavigating = false;
+    };
 }
 
 // 홈으로 돌아가기
 function goHome() {
-    dashboardView.style.display = 'flex';
-    iframeView.style.display = 'none';
-    contentIframe.src = '';
-    currentUrl = '';
-    historyStack = [];
-    historyIndex = -1;
-    pushHistoryState();
+    if (isNavigating) return;
+    
+    isNavigating = true;
+    
+    // iframe 뷰 숨기기 (부드러운 전환)
+    iframeView.classList.remove('active');
+    
+    // 약간의 딜레이 후 대시보드 뷰 표시
+    setTimeout(() => {
+        iframeView.style.display = 'none';
+        dashboardView.style.display = 'flex';
+        dashboardView.classList.remove('hiding');
+        
+        // 다음 프레임에서 iframe 초기화
+        requestAnimationFrame(() => {
+            contentIframe.src = '';
+            currentUrl = '';
+            historyStack = [];
+            historyIndex = -1;
+            isNavigating = false;
+        });
+    }, 150);
+    
+    // 히스토리 상태 업데이트
+    setTimeout(() => {
+        pushHistoryState();
+    }, 200);
 }
 
 // 네비게이션 버튼 상태 업데이트
@@ -232,17 +271,35 @@ function updateNavButtons() {
 homeBtn.addEventListener('click', goHome);
 
 // 브라우저 뒤로가기/앞으로가기 제어
+let isPopStateHandled = false;
+
 window.addEventListener('popstate', function(event) {
-    // 브라우저 뒤로가기/앞으로가기를 막고 앱 내 네비게이션 사용
-    if (iframeView.style.display !== 'none') {
-        event.preventDefault();
+    // popstate는 취소할 수 없으므로 상태만 확인
+    if (iframeView.style.display !== 'none' && !isPopStateHandled) {
+        isPopStateHandled = true;
         goHome();
+        // 다음 popstate를 위해 다시 pushState
+        setTimeout(() => {
+            pushHistoryState();
+            isPopStateHandled = false;
+        }, 100);
     }
 });
 
 // 히스토리 상태 추가 (브라우저 뒤로가기 방지)
+let lastHistoryState = null;
+
 function pushHistoryState() {
-    if (iframeView.style.display !== 'none') {
+    const currentState = iframeView.style.display !== 'none' ? 'iframe' : 'dashboard';
+    
+    // 중복 push 방지
+    if (lastHistoryState === currentState) {
+        return;
+    }
+    
+    lastHistoryState = currentState;
+    
+    if (currentState === 'iframe') {
         history.pushState({ page: 'iframe' }, '', '#iframe');
     } else {
         history.pushState({ page: 'dashboard' }, '', '#dashboard');
@@ -313,6 +370,7 @@ document.querySelectorAll('.menu-card').forEach(card => {
 // 초기 히스토리 상태 설정
 if (window.location.hash !== '#iframe') {
     history.replaceState({ page: 'dashboard' }, '', '#dashboard');
+    lastHistoryState = 'dashboard';
 }
 
 // 페이지 로드 시 웅장한 진입 애니메이션 (애플 스타일)

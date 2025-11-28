@@ -808,6 +808,14 @@ body {
     z-index: 1000;
     display: flex;
     flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.iframe-viewer.active {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* 네비게이션 바 */
@@ -902,5 +910,14 @@ body {
 /* 대시보드 뷰 숨김 처리 */
 .dashboard-container.hidden {
     display: none;
+}
+
+.dashboard-container {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.dashboard-container.hiding {
+    opacity: 0;
+    visibility: hidden;
 }
 
