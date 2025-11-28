@@ -327,30 +327,21 @@ document.querySelectorAll('.link-card').forEach(card => {
     });
 });
 
-// 브랜드 카드 클릭 이벤트
+// 브랜드 카드 클릭 이벤트 (모든 브랜드 사이트는 새 탭에서 열림)
 document.querySelectorAll('.brand-card').forEach(card => {
     card.addEventListener('click', function() {
         const url = this.getAttribute('data-url');
         const title = this.querySelector('.brand-title').textContent;
-        const openInNewWindow = this.getAttribute('data-new-window') === 'true';
         
         if (url && url.trim() !== '') {
-            if (openInNewWindow) {
-                window.open(url, '_blank', 'noopener');
-            } else {
-                loadUrlInIframe(url, title, true);
-            }
+            window.open(url, '_blank', 'noopener');
         } else {
             // URL이 설정되지 않은 경우
             const urlInput = prompt(`${title} 브랜드 사이트의 URL을 입력해주세요:`, 'https://');
             
             if (urlInput && urlInput.trim() !== '') {
                 this.setAttribute('data-url', urlInput);
-                if (openInNewWindow) {
-                    window.open(urlInput, '_blank', 'noopener');
-                } else {
-                    loadUrlInIframe(urlInput, title, true);
-                }
+                window.open(urlInput, '_blank', 'noopener');
             }
         }
     });
