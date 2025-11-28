@@ -373,7 +373,7 @@ if (window.location.hash !== '#iframe') {
     lastHistoryState = 'dashboard';
 }
 
-// 페이지 로드 시 웅장한 진입 애니메이션 (애플 스타일)
+// 페이지 로드 시 고급스러운 부드러운 페이드인 애니메이션
 document.addEventListener('DOMContentLoaded', function() {
     const dashboardContainer = document.querySelector('.dashboard-container');
     const bgParticles = document.querySelector('.bg-particles');
@@ -396,7 +396,7 @@ document.addEventListener('DOMContentLoaded', function() {
     linkCards.forEach(card => card.classList.add('entering'));
     brandCards.forEach(card => card.classList.add('entering'));
     
-    // 배경 효과 먼저 나타남
+    // 배경 효과 먼저 천천히 나타남
     setTimeout(() => {
         if (bgParticles) {
             bgParticles.classList.remove('entering');
@@ -406,53 +406,57 @@ document.addEventListener('DOMContentLoaded', function() {
             bgGrid.classList.remove('entering');
             bgGrid.classList.add('loaded');
         }
-    }, 50);
+    }, 200);
     
-    // 전체 컨테이너 페이드인 (배경 다음)
+    // 헤더와 컨테이너가 부드럽게 나타남
     setTimeout(() => {
         if (dashboardContainer) {
             dashboardContainer.classList.remove('entering');
             dashboardContainer.classList.add('loaded');
         }
-    }, 200);
-    
-    // 헤더 나타남
-    setTimeout(() => {
         if (header) {
             header.classList.remove('entering');
             header.classList.add('loaded');
         }
     }, 400);
     
-    // 섹션들이 순차적으로 나타남
+    // 섹션들이 순차적으로 부드럽게 나타남 (간격을 넓게)
     sections.forEach((section, index) => {
         setTimeout(() => {
             section.classList.remove('entering');
             section.classList.add('loaded');
-            
-            // 섹션 내부의 카드들도 순차적으로 나타남
-            const sectionMenuCards = section.querySelectorAll('.menu-card');
-            const sectionLinkCards = section.querySelectorAll('.link-card');
-            const sectionBrandCards = section.querySelectorAll('.brand-card');
-            
-            const allCards = [...sectionMenuCards, ...sectionLinkCards, ...sectionBrandCards];
-            
-            allCards.forEach((card, cardIndex) => {
-                setTimeout(() => {
-                    card.classList.remove('entering');
-                    card.classList.add('loaded');
-                }, cardIndex * 80);
-            });
-        }, 600 + (index * 150));
+        }, 600 + (index * 200));
     });
     
-    // 푸터 마지막에 나타남
+    // 카드들이 섹션 다음에 부드럽게 나타남
+    setTimeout(() => {
+        menuCards.forEach((card, index) => {
+            setTimeout(() => {
+                card.classList.remove('entering');
+                card.classList.add('loaded');
+            }, index * 100);
+        });
+        linkCards.forEach((card, index) => {
+            setTimeout(() => {
+                card.classList.remove('entering');
+                card.classList.add('loaded');
+            }, index * 100);
+        });
+        brandCards.forEach((card, index) => {
+            setTimeout(() => {
+                card.classList.remove('entering');
+                card.classList.add('loaded');
+            }, index * 100);
+        });
+    }, 800);
+    
+    // 푸터 마지막에 부드럽게 나타남
     setTimeout(() => {
         if (footer) {
             footer.classList.remove('entering');
             footer.classList.add('loaded');
         }
-    }, 600 + (sections.length * 150) + 200);
+    }, 1000 + (sections.length * 200));
 });
 
 // 키보드 접근성 개선
