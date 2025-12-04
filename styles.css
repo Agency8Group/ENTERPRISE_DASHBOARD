@@ -134,7 +134,7 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: 0.2em;
-    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 100%);
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 50%, var(--accent-secondary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -160,8 +160,8 @@ body {
     align-items: center;
     gap: 0.45rem;
     padding: 0.3rem 0.9rem;
-    background: rgba(99, 102, 241, 0.1);
-    border: 1px solid var(--accent-primary);
+    background: rgba(40, 40, 40, 0.3);
+    border: 1px solid rgba(160, 160, 176, 0.3);
     border-radius: 50px;
     backdrop-filter: blur(10px);
 }
@@ -226,8 +226,8 @@ body {
 
 .section-icon {
     font-size: 0.9rem;
-    color: var(--accent-primary);
-    filter: drop-shadow(0 0 6px var(--accent-glow));
+    color: var(--text-secondary);
+    filter: drop-shadow(0 0 3px rgba(160, 160, 176, 0.2));
 }
 
 .section-title {
@@ -241,7 +241,7 @@ body {
 .section-line {
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, var(--accent-primary) 0%, transparent 100%);
+    background: linear-gradient(90deg, rgba(160, 160, 176, 0.3) 0%, transparent 100%);
 }
 
 /* 메뉴 그리드 */
@@ -283,8 +283,8 @@ body {
 .menu-card:hover {
     transform: translateY(-5px);
     background: var(--bg-card-hover);
-    border-color: var(--accent-primary);
-    box-shadow: var(--shadow-intense);
+    border-color: rgba(160, 160, 176, 0.4);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
 
 .menu-card:hover::before {
@@ -294,7 +294,7 @@ body {
 .card-icon {
     width: 36px;
     height: 36px;
-    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+    background: linear-gradient(135deg, rgba(160, 160, 176, 0.2) 0%, rgba(107, 107, 122, 0.2) 100%);
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -302,7 +302,7 @@ body {
     margin-bottom: 0.9rem;
     font-size: 0.9rem;
     color: var(--text-primary);
-    box-shadow: var(--shadow-glow);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     transition: transform 0.4s;
 }
 
@@ -343,8 +343,8 @@ body {
 .download-btn {
     width: 100%;
     padding: 0.6rem;
-    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
-    border: none;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(160, 160, 176, 0.15) 100%);
+    border: 1px solid rgba(160, 160, 176, 0.3);
     border-radius: 6px;
     color: var(--text-primary);
     font-weight: 600;
@@ -356,12 +356,13 @@ body {
     justify-content: center;
     gap: 0.45rem;
     transition: all 0.3s;
-    box-shadow: 0 2px 9px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 2px 9px rgba(0, 0, 0, 0.3);
 }
 
 .download-btn:hover {
     transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(160, 160, 176, 0.2) 100%);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
 }
 
 .download-btn:active {
@@ -376,8 +377,8 @@ body {
     width: 100%;
     padding: 0.9rem 1.2rem;
     border-radius: 10px;
-    border: 1px solid var(--accent-primary);
-    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(160, 160, 176, 0.3);
+    background: rgba(40, 40, 40, 0.3);
     color: var(--text-primary);
     font-size: 0.75rem;
     font-weight: 600;
@@ -388,7 +389,7 @@ body {
     gap: 0.6rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: inset 0 0 15px rgba(99, 102, 241, 0.2), 0 6px 16px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2), 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
 .intranet-download-btn i {
@@ -396,22 +397,23 @@ body {
 }
 
 .intranet-download-btn:hover {
-    background: rgba(99, 102, 241, 0.3);
+    background: rgba(40, 40, 40, 0.5);
+    border-color: rgba(160, 160, 176, 0.5);
     transform: translateY(-2px);
-    box-shadow: inset 0 0 15px rgba(99, 102, 241, 0.3), 0 10px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3), 0 10px 24px rgba(0, 0, 0, 0.4);
 }
 
 .intranet-download-btn:active,
 .intranet-download-btn.active {
     transform: scale(0.99);
-    background: rgba(99, 102, 241, 0.5);
-    box-shadow: inset 0 0 20px rgba(99, 102, 241, 0.4), 0 4px 14px rgba(0, 0, 0, 0.4);
+    background: rgba(40, 40, 40, 0.6);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4), 0 4px 14px rgba(0, 0, 0, 0.4);
 }
 
 .intranet-guide {
     margin-top: 0.9rem;
     padding: 0.9rem 1rem;
-    border: 1px dashed rgba(99, 102, 241, 0.4);
+    border: 1px dashed rgba(160, 160, 176, 0.3);
     border-radius: 8px;
     background: rgba(10, 10, 10, 0.8);
     font-size: 0.62rem;
@@ -459,14 +461,14 @@ body {
 }
 
 .guide-tip span {
-    color: var(--accent-primary);
+    color: var(--text-secondary);
     font-weight: 600;
 }
 
 .guide-status {
     margin-bottom: 0.6rem;
     font-weight: 600;
-    color: var(--accent-primary);
+    color: var(--text-secondary);
     opacity: 0;
     transform: translateY(-4px);
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -512,7 +514,7 @@ body {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(160, 160, 176, 0.1), transparent);
     transition: left 0.5s;
 }
 
@@ -522,14 +524,14 @@ body {
 
 .link-card:hover {
     transform: translateX(5px);
-    border-color: var(--accent-primary);
-    box-shadow: var(--shadow-glow);
+    border-color: rgba(160, 160, 176, 0.4);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
 }
 
 .link-icon {
     width: 42px;
     height: 42px;
-    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+    background: linear-gradient(135deg, rgba(160, 160, 176, 0.2) 0%, rgba(107, 107, 122, 0.2) 100%);
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -537,7 +539,7 @@ body {
     margin-bottom: 0.9rem;
     font-size: 1.2rem;
     color: var(--text-primary);
-    box-shadow: var(--shadow-glow);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .link-title {
@@ -584,7 +586,7 @@ body {
     left: 50%;
     width: 0;
     height: 0;
-    background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(160, 160, 176, 0.1) 0%, transparent 70%);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     transition: width 0.6s, height 0.6s;
@@ -597,14 +599,14 @@ body {
 
 .brand-card:hover {
     transform: scale(1.05);
-    border-color: var(--accent-primary);
-    box-shadow: var(--shadow-intense);
+    border-color: rgba(160, 160, 176, 0.4);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
 
 .brand-icon {
     width: 48px;
     height: 48px;
-    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+    background: linear-gradient(135deg, rgba(160, 160, 176, 0.2) 0%, rgba(107, 107, 122, 0.2) 100%);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -612,7 +614,7 @@ body {
     margin: 0 auto 0.9rem;
     font-size: 1.5rem;
     color: var(--text-primary);
-    box-shadow: var(--shadow-glow);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     position: relative;
     z-index: 1;
     transition: transform 0.4s;
@@ -792,7 +794,7 @@ body {
 .nav-btn {
     width: 2.4rem;
     height: 2.4rem;
-    background: rgba(99, 102, 241, 0.1);
+    background: rgba(40, 40, 40, 0.3);
     border: 1px solid var(--border-color);
     border-radius: 6px;
     color: var(--text-primary);
@@ -805,8 +807,8 @@ body {
 }
 
 .nav-btn:hover {
-    background: rgba(99, 102, 241, 0.2);
-    border-color: var(--accent-primary);
+    background: rgba(40, 40, 40, 0.5);
+    border-color: rgba(160, 160, 176, 0.4);
     transform: scale(1.05);
 }
 
