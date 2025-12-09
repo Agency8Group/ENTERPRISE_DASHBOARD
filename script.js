@@ -3,13 +3,15 @@ function updateTime() {
     const timeElement = document.getElementById('current-time');
     if (timeElement) {
         const now = new Date();
-        const timeString = now.toLocaleTimeString('ko-KR', {
-            hour12: false,
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        });
-        timeElement.textContent = timeString;
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        
+        // 멋진 시간 표시 형식: [아이콘] HH:MM:SS
+        timeElement.innerHTML = `
+            <i class="fas fa-clock"></i>
+            <span class="time-value">${hours}<span class="time-separator">:</span>${minutes}<span class="time-separator">:</span>${seconds}</span>
+        `;
     }
 }
 

@@ -639,15 +639,85 @@ body {
     align-items: center;
 }
 
+.footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
 .footer-text {
-    font-size: 0.51rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
+    margin: 0;
+}
+
+.footer-credit {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.credit-name {
+    color: var(--accent-primary);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+}
+
+.footer-credit:hover .credit-name {
+    color: var(--accent-secondary);
+    text-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
+    transform: scale(1.05);
 }
 
 .footer-time {
-    font-size: 0.51rem;
-    color: var(--text-secondary);
+    font-size: 0.9rem;
+    color: var(--text-primary);
     font-family: 'Courier New', monospace;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 0.9rem;
+    background: rgba(40, 40, 40, 0.4);
+    border: 1px solid rgba(160, 160, 176, 0.2);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.footer-time:hover {
+    background: rgba(40, 40, 40, 0.6);
+    border-color: rgba(160, 160, 176, 0.4);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    transform: translateY(-2px);
+}
+
+.footer-time i {
+    color: var(--accent-primary);
+    font-size: 0.9rem;
+    animation: pulse-icon 2s ease-in-out infinite;
+}
+
+@keyframes pulse-icon {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+.footer-time .time-separator {
+    color: var(--accent-primary);
+    font-weight: 700;
+    animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
 }
 
 /* 반응형 디자인 */
@@ -692,6 +762,10 @@ body {
         flex-direction: column;
         gap: 0.6rem;
         text-align: center;
+    }
+
+    .footer-left {
+        align-items: center;
     }
 }
 
