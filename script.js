@@ -112,17 +112,27 @@ function executeDownload() {
 
     if (openMode === 'tab') {
         if (downloadLink && downloadLink.trim() !== '') {
-            // 다운로드만 시도 (새 탭 열기 최소화)
+            // Edge 브라우저에서는 새 창에서 열어서 다운로드 시작
+            // 브라우저 보안 정책상 외부 도메인 파일은 자동 다운로드가 제한될 수 있음
             const tempAnchor = document.createElement('a');
             tempAnchor.href = downloadLink;
-            // download 속성 추가로 다운로드만 시도 (외부 도메인이면 브라우저가 새 탭을 열 수 있음)
-            const fileName = downloadLink.split('/').pop().split('?')[0] || 'download';
+            const fileName = downloadLink.split('/').pop().split('?')[0] || 'download.exe';
             tempAnchor.download = fileName;
+            tempAnchor.target = '_blank';
             tempAnchor.rel = 'noopener noreferrer';
             tempAnchor.style.display = 'none';
             document.body.appendChild(tempAnchor);
             tempAnchor.click();
             document.body.removeChild(tempAnchor);
+            
+            // Edge 브라우저 안내 (선택적)
+            setTimeout(() => {
+                const isEdge = /Edg/.test(navigator.userAgent);
+                if (isEdge) {
+                    // Edge에서는 다운로드가 시작되지 않을 수 있으므로 안내
+                    console.log('Edge 브라우저에서는 다운로드가 자동으로 시작되지 않을 수 있습니다. 새로 열린 탭에서 다운로드를 진행해주세요.');
+                }
+            }, 500);
         } else {
             alert('다운로드 링크를 설정해주세요. Google Drive 파일 링크를 data-link 속성에 추가하세요.');
         }
@@ -131,11 +141,12 @@ function executeDownload() {
     
     if (downloadLink && downloadLink.trim() !== '') {
         // 직접 다운로드를 위해 임시 링크 생성 후 클릭
+        // Edge 브라우저에서는 새 창에서 열어서 다운로드 시작
         const tempLink = document.createElement('a');
         tempLink.href = downloadLink;
-        // download 속성 추가로 다운로드만 시도
-        const fileName = downloadLink.split('/').pop().split('?')[0] || 'download';
+        const fileName = downloadLink.split('/').pop().split('?')[0] || 'download.exe';
         tempLink.download = fileName;
+        tempLink.target = '_blank';
         tempLink.rel = 'noopener noreferrer';
         tempLink.style.display = 'none';
         document.body.appendChild(tempLink);
