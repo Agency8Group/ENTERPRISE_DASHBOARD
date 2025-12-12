@@ -95,102 +95,10 @@ function detectBrowser() {
     return 'unknown';
 }
 
-// Chrome 설치 여부 확인 및 다운로드 처리
+// 단순하게 새 창으로 다운로드
 function downloadFile(downloadLink) {
-    const fileName = downloadLink.split('/').pop().split('?')[0] || 'download.exe';
-    const browser = detectBrowser();
-    
-    // 이미 Chrome인 경우 직접 다운로드 (새 창 없음)
-    if (browser === 'chrome') {
-        directDownload(downloadLink, fileName);
-        return;
-    }
-    
-    // Chrome이 아닌 경우: 1차로 Chrome 프로토콜 시도
-    try {
-        const chromeProtocol = `googlechrome:${downloadLink}`;
-        
-        // Chrome 프로토콜 핸들러 시도
-        const tempLink = document.createElement('a');
-        tempLink.href = chromeProtocol;
-        tempLink.style.display = 'none';
-        document.body.appendChild(tempLink);
-        tempLink.click();
-        document.body.removeChild(tempLink);
-        
-        // Chrome이 설치되어 있지 않으면 프로토콜이 작동하지 않으므로
-        // 짧은 시간 후 현재 브라우저로 fallback
-        setTimeout(() => {
-            fallbackToCurrentBrowser(downloadLink, fileName, browser);
-        }, 200);
-    } catch (error) {
-        // Chrome 프로토콜 실패 시 즉시 현재 브라우저로 fallback
-        fallbackToCurrentBrowser(downloadLink, fileName, browser);
-    }
-}
-
-// 현재 브라우저로 fallback (새 창 최소화)
-function fallbackToCurrentBrowser(downloadLink, fileName, browser) {
-    // 먼저 직접 다운로드 시도 (새 창 없음)
-    const tempAnchor = document.createElement('a');
-    tempAnchor.href = downloadLink;
-    tempAnchor.download = fileName;
-    tempAnchor.rel = 'noopener noreferrer';
-    tempAnchor.style.display = 'none';
-    document.body.appendChild(tempAnchor);
-    tempAnchor.click();
-    
-    setTimeout(() => {
-        document.body.removeChild(tempAnchor);
-    }, 100);
-    
-    // Edge의 경우 새 창이 열릴 수 있으므로 최소 크기로 처리
-    if (browser === 'edge') {
-        setTimeout(() => {
-            try {
-                const downloadWindow = window.open(
-                    downloadLink,
-                    '_blank',
-                    'width=1,height=1,left=-2000,top=-2000,noopener,noreferrer'
-                );
-                
-                if (downloadWindow) {
-                    // 창을 화면 밖으로 이동 (보이지 않게)
-                    try {
-                        downloadWindow.moveTo(-2000, -2000);
-                        downloadWindow.resizeTo(1, 1);
-                    } catch (e) {
-                        // 브라우저 보안 정책으로 이동 불가능할 수 있음
-                    }
-                    
-                    // 다운로드 시작 후 창 닫기 시도
-                    setTimeout(() => {
-                        try {
-                            downloadWindow.close();
-                        } catch (e) {
-                            // 창이 이미 닫혔거나 닫을 수 없는 경우
-                        }
-                    }, 500);
-                }
-            } catch (e) {
-                // 새 창 열기 실패 (이미 다운로드가 시작되었을 수 있음)
-            }
-        }, 200);
-    }
-}
-
-// 직접 다운로드 (Chrome 또는 다른 브라우저에서 새 창 없이)
-function directDownload(downloadLink, fileName) {
-    const tempAnchor = document.createElement('a');
-    tempAnchor.href = downloadLink;
-    tempAnchor.download = fileName;
-    tempAnchor.rel = 'noopener noreferrer';
-    tempAnchor.style.display = 'none';
-    document.body.appendChild(tempAnchor);
-    tempAnchor.click();
-    setTimeout(() => {
-        document.body.removeChild(tempAnchor);
-    }, 100);
+    // 새 창으로 다운로드 링크 열기
+    window.open(downloadLink, '_blank', 'noopener,noreferrer');
 }
 
 // 비밀번호 확인 및 다운로드 실행
